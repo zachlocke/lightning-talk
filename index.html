@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular DevTools</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --angular-red: #dd0031;
+            --angular-dark: #c3002f;
+            --bg-dark: #1a1a2e;
+            --text-light: #e8e8e8;
+            --text-muted: #a0a0b8;
+            --accent-blue: #3b82f6;
+        }
+
+        .reveal {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-light);
+        }
+
+        .reveal .slides section {
+            text-align: left;
+            padding: 40px 60px;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            color: #fff;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.4em; line-height: 1.1; }
+        .reveal h2 { font-size: 1.6em; margin-bottom: 0.6em; }
+        .reveal h3 { font-size: 1.2em; color: var(--angular-red); margin-bottom: 0.4em; }
+
+        .reveal p, .reveal li {
+            font-size: 0.75em;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .reveal ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .reveal ul li {
+            padding: 0.3em 0;
+            padding-left: 1.2em;
+            position: relative;
+        }
+
+        .reveal ul li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--angular-red);
+            font-weight: 700;
+        }
+
+        .title-slide {
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title-slide h1 {
+            margin-bottom: 0.2em;
+        }
+
+        .angular-shield {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+        }
+
+        .subtitle {
+            font-size: 0.85em !important;
+            color: var(--text-muted) !important;
+            font-weight: 400;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--angular-red);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-size: 0.6em;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            font-size: 0.9em;
+        }
+
+        .feature-card p, .feature-card li {
+            font-size: 0.65em;
+        }
+
+        code, .reveal code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .step-num {
+            display: inline-block;
+            background: var(--angular-red);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 0.65em;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            padding: 0.4em 0;
+            font-size: 0.75em;
+        }
+
+        .vs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.65em;
+        }
+
+        .vs-table th {
+            text-align: left;
+            padding: 10px 16px;
+            border-bottom: 2px solid var(--angular-red);
+            color: var(--angular-red);
+            font-weight: 700;
+        }
+
+        .vs-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-light);
+        }
+
+        .highlight-box {
+            background: rgba(221, 0, 49, 0.1);
+            border-left: 3px solid var(--angular-red);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 0.7em !important;
+        }
+
+        .end-slide {
+            text-align: center !important;
+        }
+
+        .end-slide h2 {
+            margin-bottom: 0.3em;
+        }
+
+        .link {
+            color: var(--accent-blue);
+            font-size: 0.7em;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <svg class="angular-shield" viewBox="0 0 256 272" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M.1 45.522L125.908.697l129.196 44.028-20.919 166.45-108.277 59.966-106.583-59.169L.1 45.522z" fill="#dd0031"/>
+                    <path d="M255.104 44.725L125.908.697v270.444l108.277-59.866 20.919-166.55z" fill="#c3002f"/>
+                    <path d="M126.107 32.274L47.714 206.693l29.285-.498 15.739-39.828h70.083l17.28 40.327 27.308.498L126.107 32.274zm.2 55.882l26.496 55.882h-49.806l23.31-55.882z" fill="#fff"/>
+                </svg>
+                <h1>Angular DevTools</h1>
+                <p class="subtitle">A Chrome Extension for Debugging Angular Apps</p>
+                <span class="tag">Lightning Talk</span>
+            </section>
+
+            <!-- Slide 2: What Is It -->
+            <section>
+                <h2>What Is Angular DevTools?</h2>
+                <ul>
+                    <li>Free Chrome & Firefox extension built by the Angular team</li>
+                    <li>Adds an <strong>"Angular"</strong> tab to your browser DevTools</li>
+                    <li>Works with Angular 9+ apps running in development mode</li>
+                    <li>Replaces the older <strong>Augury</strong> extension</li>
+                </ul>
+                <div class="highlight-box">
+                    <p>Standard browser DevTools can inspect the DOM, but they don't understand Angular's component model. Angular DevTools bridges that gap.</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: Installation -->
+            <section>
+                <h2>Getting Started</h2>
+                <div class="step-row"><span class="step-num">1</span> Search "Angular DevTools" in the Chrome Web Store</div>
+                <div class="step-row"><span class="step-num">2</span> Click <strong>Add to Chrome</strong></div>
+                <div class="step-row"><span class="step-num">3</span> Open DevTools on any Angular app (<code>F12</code> or <code>Ctrl+Shift+I</code>)</div>
+                <div class="step-row"><span class="step-num">4</span> Click the new <strong>Angular</strong> tab</div>
+                <div class="highlight-box">
+                    <p><strong>Note:</strong> Only works with development builds. Production builds strip the debug hooks Angular DevTools needs.</p>
+                </div>
+            </section>
+
+            <!-- Slide 4: Three Main Tabs -->
+            <section>
+                <h2>Three Main Features</h2>
+                <div class="two-col">
+                    <div class="feature-card">
+                        <h3>Components</h3>
+                        <p>Browse the full component tree. Select any component to inspect its inputs, outputs, and current state in real time.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Profiler</h3>
+                        <p>Record change detection cycles. See which components re-rendered, what triggered it, and how long each cycle took.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div class="feature-card">
+                        <h3>Injector Tree</h3>
+                        <p>Visualize the dependency injection hierarchy. Understand how and where services are provided and resolved.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Component Explorer Deep Dive -->
+            <section>
+                <h2>Component Explorer</h2>
+                <ul>
+                    <li>Shows the full component hierarchy as a tree, not the DOM</li>
+                    <li>Click any component to see its properties and their current values</li>
+                    <li><strong>Edit values live</strong> to test different states without changing code</li>
+                    <li>Navigate to the component's source file directly from the panel</li>
+                </ul>
+            </section>
+
+            <!-- Slide 5b: Component Explorer Screenshot -->
+            <section>
+                <h2>Component Explorer in Action</h2>
+                <img src="component-explorer.png" alt="Angular DevTools Component Explorer showing component tree and properties" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                <p style="font-size: 0.6em; color: var(--text-muted); margin-top: 12px;">Selecting <code>app-user-detail</code> reveals its properties, injected services, and live state.</p>
+            </section>
+
+            <!-- Slide 6: Profiler Deep Dive -->
+            <section>
+                <h2>Profiler</h2>
+                <ul>
+                    <li>Hit <strong>Record</strong>, interact with your app, then <strong>Stop</strong></li>
+                    <li>See each change detection cycle as a frame with timing data</li>
+                    <li>Identify which components are re-rendering unnecessarily</li>
+                    <li>Spot performance bottlenecks before they hit production</li>
+                </ul>
+            </section>
+
+            <!-- Slide 6b: Profiler Screenshot -->
+            <section>
+                <h2>Profiler in Action</h2>
+                <img src="profiler.png" alt="Angular DevTools Profiler showing change detection cycles" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                <p style="font-size: 0.6em; color: var(--text-muted); margin-top: 12px;">Each bar is a change detection cycle. This one took 3.1ms, triggered by <code>setTimeout</code>, spent entirely in <code>UserDetailComponent</code>.</p>
+            </section>
+
+            <!-- Slide 7: Why Not Just Browser DevTools? -->
+            <section>
+                <h2>vs. Standard Browser DevTools</h2>
+                <table class="vs-table">
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th>Browser DevTools</th>
+                            <th>Angular DevTools</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Inspect DOM elements</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>View component tree</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Inspect @Input / @Output</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Profile change detection</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>View DI injector tree</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Edit component state live</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Slide 8: Closing -->
+            <section class="end-slide">
+                <h2>Try It Out</h2>
+                <p>Install it, run <code>ng serve</code>, and open the Angular tab.</p>
+                <p class="link">angular.dev/tools/devtools</p>
+                <p class="subtitle" style="margin-top: 40px;">Thanks!</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight]
+        });
+    </script>
+</body>
+</html>
